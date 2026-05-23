@@ -1,0 +1,4 @@
+- source: variablealeatoriaydistribucionprobabilidad.qmd
+  posit-connect-cloud:
+    - id: 019d4c76-8316-d57b-8699-ad131ed04806
+      url: https://connect.posit.cloud/mauricio-borda/content/019d4c76-8316-d57b-8699-ad131ed04806

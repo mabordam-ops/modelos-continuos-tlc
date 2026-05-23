@@ -1,0 +1,677 @@
+---
+title: "MODELOS CONTINUOS Y TLC"
+subtitle: "SHINYS INTERACTIVOS"
+author: 
+  - name: Mauricio Borda<br>Johan Rodriguez<br>Alannis Duque
+    affiliation: "Universidad del Tolima"
+    affiliation-url: "https://www.ut.edu.co/"
+date: today
+lang: es
+bibliography: referencias.bib
+link-citations: true
+nocite: |
+  @*
+title-block-banner: "#5f17a3"
+filters:
+  - shinylive
+format:
+  html:
+    page-layout: full
+    fontsize: 14pt
+    toc: true
+    toc-location: right
+
+    number-sections: true
+    code-fold: true
+    code-summary: "Ver código"
+    theme: dark
+    highlight-style: monokai
+    html-math-method: katex
+    smooth-scroll: true
+    link-external-newwindow: true
+    code-overflow: scroll
+    favicon: favicon.ico
+editor: visual
+
+knitr:
+  opts_chunk:
+    message: false
+    warning: false
+    fig.align: center
+    fig.width: 6
+    fig.height: 6
+    out.width: "70%"
+---
+
+```{=html}
+<div style="position:absolute; top:10px; right:10px;">
+<img src="ut.png" width="150">
+</div>
+```
+
+```{=html}
+<style>
+body{
+  background-color:#ffffff;
+  font-size:130%;
+  text-align:justify;
+}
+</style>
+```
+
+# Cargar paquetes
+
+```{r}
+ipak <- function(pkg){
+
+  options(repos = c(CRAN="https://cloud.r-project.org"))
+
+  new.pkg <- pkg[!(pkg %in% rownames(installed.packages()))]
+
+  if(length(new.pkg)) install.packages(new.pkg, dependencies = TRUE)
+
+  invisible(lapply(pkg, function(p)
+    suppressPackageStartupMessages(library(p, character.only = TRUE))
+  ))
+}
+
+packages <- c("tidyverse","kableExtra","psych","readxl")
+
+ipak(packages)
+```
+
+# Distribucion Normal
+
+La distribución normal, también conocida como distribución gaussiana o campana de Gauss, es la distribución de probabilidad continua más importante en la estadística.
+
+Su importancia radica en que muchos fenómenos naturales, sociales y económicos siguen este patrón.
+
+La distribución normal es la distribución de probabilidad continua más usada en estadística y una herramienta fundamental para modelar una inmensa variedad de fenómenos en las ciencias, la ingeniería y la economía. Su popularidad se debe a una propiedad matemática conocida como el Teorema del Límite Central, que establece que la suma o el promedio de un gran número de variables aleatorias independientes (sin importar su distribución original) tiende a seguir una distribución normal.
+
+## Características Clave {.unnumbered}
+
+La distribución normal es un tipo de distribución de probabilidad continua. Esto significa que la variable aleatoria puede tomar cualquier valor dentro de un rango determinado. Se representa por una curva simétrica en forma de campana, donde la mayor parte de los datos se agrupan alrededor del valor central.
+
+**Forma de Campana:** La distribución es simétrica alrededor de su media, creando una curva con forma de campana. El punto más alto de la campana es la media.
+
+**Media, Mediana y Moda Coincidentes:** En una distribución normal perfecta, estos tres valores son iguales y se encuentran en el centro de la curva.
+
+**Asintótica al Eje Horizontal:** La curva se extiende indefinidamente en ambas direcciones, acercándose al eje x pero sin llegar a tocarlo.
+
+**Regla Empírica:** Alrededor del 68% de los datos se encuentran dentro de una desviación estándar de la media (μ±σ), el 95% dentro de dos desviaciones estándar (μ±2σ), y el 99.7% dentro de tres desviaciones estándar (μ±3σ).
+
+- **Parámetros**
+
+La distribución normal está completamente definida por dos parámetros:
+
+**Media (μ):** Indica la ubicación del centro de la curva y el valor más probable.
+
+**Varianza σ2σ2 o Desviación Estándar (σ):** Mide la dispersión o variabilidad de los datos. Una σ grande resulta en una curva más ancha y aplanada, mientras que una σ pequeña crea una curva más estrecha y alta.
+
+- **Fórmulas**
+
+La fórmula principal de la distribución normal es la función de densidad de probabilidad (FDP). Esta función no calcula la probabilidad de un punto exacto, sino la densidad de probabilidad en ese punto.
+
+Función de Densidad de Probabilidad (FDP):
+
+$$f(x)=σ2π
+​1​e−21​(σx−μ​)2$$
+
+Donde:
+
+**x** es el valor de la variable aleatoria.
+
+**μ** es la media.
+
+**σ** es la desviación estándar.
+
+**e** es el número de Euler (aproximadamente 2.71828).
+
+**π** es la constante pi (aproximadamente 3.14159).
+
+Para calcular probabilidades, se utiliza la distribución normal estándar, que tiene una media de 0 y una desviación estándar de 1. Cualquier variable normal puede estandarizarse usando la siguiente fórmula:
+
+**Formula de Estandarización (puntuación Z):**
+
+$$Z=x−μσ
+Z=σx−μ​$$
+
+La puntuación Z nos dice cuántas desviaciones estándar está un valor dado de la media. Luego, se usan tablas o software estadístico para encontrar las probabilidades correspondientes.
+
+<br>
+
+## Ejercicios
+
+## Ejercicio 6.7 {.unnumbered}
+
+Un investigador cientíﬁco informa que unos ratones vivirán un promedio de 40 meses cuando sus dietas se restringen drásticamente y después se enriquecen con vitaminas y proteínas. Suponiendo que la vidas de tales ratones se distribuyen normalmente con una desviación estándar de 6.3 meses, encuentre la probabilidad de que un ratón dado vivirá:
+
+**a)** más de 32 meses<br>**b)** menos de 28 meses<br>**c)** entre 37 y 49 meses
+
+- **Parametros**
+
+```{r}
+media <- 40 
+desviacion_estandar <- 6.3 
+```
+
+### Solución a los incisos
+
+::: panel-tabset
+#### Inciso A
+
+Cual es probabilidad de que un ratón dado vivirá más de 32 meses.
+
+```{r}
+prob_mas_de_32 <- 1 - pnorm(32, mean = media, sd = desviacion_estandar)
+cat("a)", round(prob_mas_de_32, 4), "\n")
+```
+
+La probabilidad de que un ratón viva más de 32 meses es 0.8979.
+
+**Grafica**
+
+```{r}
+media <- 40
+desviacion_estandar <- 6.3
+rango <- c(media - 3 * desviacion_estandar, media + 3 * desviacion_estandar)
+ggplot(data.frame(x = rango), aes(x = x)) +  # Curva de la distribución normal
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion_estandar), 
+                n = 500, color = "black") +  # Resaltar el área de interés (X > 32)
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion_estandar),
+            fill = "steelblue", xlim = c(32, rango[2]), alpha = 0.5) +  # Etiquetas y títulos
+  labs(    title = "Distribucion Normal",    subtitle = "Probabilidad de vivir más de 32 meses",    x = "Vida en meses",    y = "Densidad de Probabilidad"  ) +  theme_bw() +  # Línea para el valor de 32
+  geom_vline(xintercept = 32, linetype = "dashed", color = "red") +
+  geom_text(aes(x = 32, y = 0.01, label = "32 meses"), hjust = -0.1, vjust = -1)
+```
+
+La probabilidad de que un ratón viva más de 32 meses es 89.79%
+
+#### Inciso B
+
+Cual es la probabilidad de que un ratón dado vivirá más de 28 meses.
+
+```{r}
+prob_menos_de_28 <- pnorm(28, mean = media, sd = desviacion_estandar)
+cat("b)", round(prob_menos_de_28, 4), "\n")
+```
+
+La probabilidad de que un ratón viva más de 32 meses es 0.0284.
+
+**Grafica**
+
+```{r}
+media <- 40
+desviacion_estandar <- 6.3
+rango <- c(media - 3 * desviacion_estandar, media + 3 * desviacion_estandar)
+ggplot(data.frame(x = rango), aes(x = x)) +  # Curva de la distribución normal
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion_estandar), 
+                n = 500, color = "black") +  # Resaltar el área de interés (X < 28)
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion_estandar),
+            fill = "orange", xlim = c(rango[1], 28), alpha = 0.5) +  # Etiquetas y títulos
+  labs(    title = "Distribucion Normal",    subtitle = "Probabilidad de vivir menos de 28 meses",    x = "Vida en meses",    y = "Densidad de Probabilidad"  ) +  theme_bw() +  # Línea para el valor de 28
+  geom_vline(xintercept = 28, linetype = "dashed", color = "red") +
+  geom_text(aes(x = 28, y = 0.01, label = "28 meses"), hjust = 1.1, vjust = -1)
+```
+
+La probabilidad de que un ratón viva más de 32 meses es 2.84%.
+
+#### Inciso C
+
+Cual es la probabilidad de que un ratón dado vivirá más de 49 meses.
+
+```{r}
+prob_c_superior <- pnorm(49, mean = media, sd = desviacion_estandar)
+prob_c_inferior <- pnorm(37, mean = media, sd = desviacion_estandar)
+prob_c <- prob_c_superior - prob_c_inferior
+cat("c)", round(prob_c, 4), "\n")
+```
+
+La probabilidad de que un ratón viva más de 32 meses es 0.6065.
+
+**Grafica**
+
+```{r}
+media <- 40
+desviacion_estandar <- 6.3
+rango <- c(media - 3 * desviacion_estandar, media + 3 * desviacion_estandar)
+ggplot(data.frame(x = rango), aes(x = x)) +  # Curva de la distribución normal
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion_estandar), 
+                n = 500, color = "black") +  # Resaltar el área de interés (37 < X < 49)
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion_estandar),
+            fill = "purple", xlim = c(37, 49), alpha = 0.5) +  # Etiquetas y títulos
+  labs(    title = "Distribucion Normal",    subtitle = "Probabilidad de vivir entre 37 y 49 meses",    x = "Vida en meses",    y = "Densidad de Probabilidad"  ) +  theme_bw() +  # Líneas para los valores de 37 y 49
+  geom_vline(xintercept = 37, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = 49, linetype = "dashed", color = "red") +
+  geom_text(aes(x = 37, y = 0.01, label = "37"), hjust = 1.1, vjust = -1) +
+  geom_text(aes(x = 49, y = 0.01, label = "49"), hjust = -0.1, vjust = -1)
+```
+
+La probabilidad de que un ratón viva más de 32 meses es 60.65%.
+:::
+
+<br>
+
+## Ejercicio 6.9 {.unnumbered}
+
+Una máquina expendedora de bebidas gaseosas se regula para que sirva un promedio de 200 mililitros por vaso. Si la cantidad de bebida se distribuye normalmente con una desviación estándar igual a 15 mililitros,
+
+**a)** ¿qué fracción de los vasos contendrá más de 224 mililitros?<br>**b)** ¿cuál es la probabilidad de que un vaso contenga entre 191 y 209 mililitros?<br>**c)** ¿cuántos vasos probablemente se derramarán si se utilizan vasos de 230 mililitros para las siguientes 1000 bebidas?
+
+- **Parametros**
+
+```{r}
+media <- 200
+desviacion_estandar <- 15
+```
+
+### Solución a los incisos
+
+::: panel-tabset
+#### Inciso A
+
+¿Qué fracción de los vasos contendrá más de 224 mililitros?
+
+```{r}
+prob_a <- 1 - pnorm(224, mean = media, sd = desviacion_estandar)
+cat("a)", round(prob_a, 4), "\n")
+```
+
+La probabilidad de que una fraccion de vasos contendrá más de 224 mililitros es 0.0548
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion_estandar, media + 3 * desviacion_estandar)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion_estandar)) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion_estandar),
+            fill = "coral", xlim = c(224, max(rango)), alpha = 0.6) +
+  labs(    title = "Probabilidad de que un vaso contenga más de 224 ml",    x = "Cantidad de bebida (ml)",    y = "Densidad de probabilidad"  ) +
+  geom_vline(xintercept = 224, linetype = "dashed", color = "red") +  theme_minimal()
+```
+
+La probabilidad de que una fraccion de vasos contendrá más de 224 mililitros es 54.8%.
+
+#### Inciso B
+
+¿Cuál es la probabilidad de que un vaso contenga entre 191 y 209 mililitros?
+
+```{r}
+media <- 200
+desviacion_estandar <- 15
+prob_b_superior <- pnorm(209, mean = media, sd = desviacion_estandar)
+prob_b_inferior <- pnorm(191, mean = media, sd = desviacion_estandar)
+prob_b <- prob_b_superior - prob_b_inferior
+cat("b)", round(prob_b, 4), "\n")
+```
+
+La probabilidad de que un vaso contenga entre 191 y 209 mililitros es de 0.4515.
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion_estandar, media + 3 * desviacion_estandar)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion_estandar)) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion_estandar),
+            fill = "darkgreen", xlim = c(191, 209), alpha = 0.6) +
+  labs(    title = "Probabilidad de un vaso entre 191 ml y 209 ml",    x = "Cantidad de bebida (ml)",    y = "Densidad de probabilidad"  ) +
+  geom_vline(xintercept = 191, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = 209, linetype = "dashed", color = "red") +
+  theme_minimal()
+```
+
+La probabilidad de que un vaso contenga entre 191 y 209 mililitros es de 45.15%.
+
+#### Inciso C
+
+¿Cuántos vasos probablemente se derramarán si se utilizan vasos de 230 mililitros para las siguientes 1000 bebidas?
+
+```{r}
+media <- 200
+desviacion_estandar <- 15
+total_vasos <- 1000
+prob_derramarse <- 1 - pnorm(230, mean = media, sd = desviacion_estandar)
+vasos_derramados <- prob_derramarse * total_vasos
+cat("c)", round(vasos_derramados), "vasos\n")
+```
+
+Si se utilizan vasos de 230 mililitros para las siguientes 1000 bebidas probablemente se derramarán 23 vasos.
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion_estandar, media + 3 * desviacion_estandar)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion_estandar)) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion_estandar),
+            fill = "purple", xlim = c(230, max(rango)), alpha = 0.6) +
+  labs(    title = "Probabilidad de que un vaso se derrame",    x = "Cantidad de bebida (ml)",    y = "Densidad de probabilidad"  ) +
+  geom_vline(xintercept = 230, linetype = "dashed", color = "red") +
+  theme_minimal()
+```
+
+Si se utilizan vasos de 230 mililitros para las siguientes 1000 bebidas probablemente se derramarán 23 vasos.
+:::
+
+<br>
+
+## Ejercicio 6.11 {.unnumbered}
+
+Un abogado viaja todos los días de su casa en los suburbios a su oﬁ cina en el centro de la ciudad. El tiempo promedio para un viaje sólo de ida es 24 minutos, con una desviación estándar de 3.8 minutos. Suponga que la distribución de los tiempos de viaje está distribuida normalmente.
+
+**a)** ¿Cuál es la probabilidad de que un viaje tome al menos 1/2 hora?<br> **b)** Si la oﬁcina abre a las 9:00 A.M. y él sale diario de su casa a las 8:45 A.M., ¿qué porcentaje de las veces llegará tarde al trabajo?<br>**c)** Si sale de su casa a las 8:35 A.M. y el café se sirve en la oﬁcina de 8:50 A.M. a 9:00 A.M., cuál es la probabilidad de que se pierda el café?<br>**d)** Encuentre la longitud de tiempo por arriba de la cual encontramos e1 15% de los viajes más lentos.<br>**e)** Encuentre la probabilidad de que 2 de los siguientes 3 viajes tomen al menos 1/2 hora.<br>
+
+- **Parametros**
+
+```{r}
+media <- 24
+desviacion <- 3.8
+```
+
+### Solución a los incisos
+
+:::: panel-tabset
+#### Inciso A
+
+¿Cuál es la probabilidad de que un viaje tome al menos 1/2 hora?
+
+```{r}
+media <- 24
+desviacion <- 3.8
+prob_a <- 1 - pnorm(30, mean = media, sd = desviacion)
+cat("a)", round(prob_a, 4), "\n")
+```
+
+La probabilidad de que un viaje tome al menos 1/2 hora es de 0.0572.
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion, media + 3 * desviacion)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion), n = 500) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion), fill = "coral", xlim = c(30, max(rango)), alpha = 0.6) +
+  labs(title = "Distribucion Normal", x = "Tiempo de viaje (minutos)", y = "Densidad de Probabilidad") +
+  geom_vline(xintercept = 30, linetype = "dashed", color = "red") +
+  theme_minimal()
+```
+
+La probabilidad de que un viaje tome al menos 1/2 hora es de 5.72%.
+
+#### Inciso B
+
+Si la oﬁcina abre a las 9:00 A.M. y él sale diario de su casa a las 8:45 A.M., ¿qué porcentaje de las veces llegará tarde al trabajo?
+
+```{r}
+prob_b <- 1 - pnorm(15, mean = media, sd = desviacion)
+porcentaje_b <- prob_b * 100
+cat("b)", round(porcentaje_b, 2), "%\n")
+```
+
+Si la oﬁcina abre a las 9:00 A.M. y él sale diario de su casa a las 8:45 A.M. 99.11 %xxx llegará tarde al trabajo.
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion, media + 3 * desviacion)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion), n = 500) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion),fill = "#3de3c2", xlim = c(15, max(rango)), alpha = 0.6) +
+  labs(title = "Distribucion Normal", x = "Tiempo de viaje (minutos)", y = "Densidad de Probabilidad") +
+  geom_vline(xintercept = 15, linetype = "dashed", color = "red") +  theme_minimal()
+```
+
+Si la oﬁcina abre a las 9:00 A.M. y él sale diario de su casa a las 8:45 A.M. 99.11 % llegará tarde al trabajo.
+
+#### Inciso C
+
+Si sale de su casa a las 8:35 A.M. y el café se sirve en la oﬁcina de 8:50 A.M. a 9:00 A.M., cuál es la probabilidad de que se pierda el café?
+
+::: callout-warning
+## Advertencia
+
+Este inciso es un problema de distribución binomial, no normal, ya que se trata de un número discreto de “éxitos” (viajes de más de 30 minutos) en un número fijo de intentos (3 viajes). Por lo tanto, la gráfica no es una curva de densidad normal, sino un gráfico de barras de la distribución binomial.
+:::
+
+```{r}
+prob_c_antes <- pnorm(15, mean = media, sd = desviacion)
+prob_c_despues <- 1 - pnorm(25, mean = media, sd = desviacion)
+prob_c <- prob_c_antes + prob_c_despues
+cat("c)", round(prob_c, 4), "\n")
+```
+
+La probabilidad de que se pierda el café es de 0.4051.
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion, media + 3 * desviacion)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion), n = 500) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion), fill = "gray", xlim = c(min(rango), 15), alpha = 0.6) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion), fill = "gray", xlim = c(25, max(rango)), alpha = 0.6) +
+  labs(title = "Distribucion Normal", subtitle = "Probabilidad de perder el café", x = "Tiempo de viaje (minutos)", y = "Densidad de Probabilidad") +
+  geom_vline(xintercept = 15, linetype = "dashed", color = "red") +
+  geom_vline(xintercept = 25, linetype = "dashed", color = "red") +
+  theme_minimal()
+```
+
+La probabilidad de que se pierda el café es de 40.51%.
+
+#### Inciso D
+
+Encuentre la longitud de tiempo por arriba de la cual encontramos e1 15% de los viajes más lentos.
+
+```{r}
+valor_d <- qnorm(0.85, mean = media, sd = desviacion)
+cat("d)", round(valor_d, 2), "minutos\n")
+```
+
+La longitud de tiempo por arriba de la cual encontramos e1 15% de los viajes más lentos es 27.94 minutos.
+
+**Grafica**
+
+```{r}
+media <- 24
+desviacion <- 3.8
+valor_cuantil <- qnorm(0.85, mean = media, sd = desviacion)
+rango <- c(media - 3 * desviacion, media + 3 * desviacion)
+library(ggplot2)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion), n = 500) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion), fill = "#11de07", xlim = c(valor_cuantil, max(rango)), alpha = 0.6) +
+  labs(    title = "Distribucion Normal", subtitle = "Viajes más lentos (15% superior)",    x = "Tiempo de viaje (minutos)",    y = "Densidad de Probabilidad"  ) +
+  geom_vline(xintercept = valor_cuantil, linetype = "dashed", color = "red") +
+  geom_text(aes(x = valor_cuantil, y = dnorm(valor_cuantil, mean = media, sd = desviacion), label = paste0(round(valor_cuantil, 2), " min")), vjust = -1, hjust = -0.1) +
+  theme_minimal()
+```
+
+La longitud de tiempo por arriba de la cual encontramos e1 15% de los viajes más lentos es 27.94 minutos.
+
+#### Inciso E
+
+Encuentre la probabilidad de que 2 de los siguientes 3 viajes tomen al menos 1/2 hora.
+
+```{r}
+p_exito <- 1 - pnorm(30, mean = media, sd = desviacion)
+n_viajes <- 3
+x_exitos <- 2
+prob_e <- dbinom(x_exitos, size = n_viajes, prob = p_exito)
+cat("e)", round(prob_e, 4), "\n")
+```
+
+La probabilidad de que 2 de los siguientes 3 viajes tomen al menos 1/2 hora es 0.0092.
+
+**Grafica**
+
+```{r}
+p_exito <- 1 - pnorm(30, mean = 24, sd = 3.8) 
+n_viajes <- 3 
+exitos_deseados <- 0:n_viajes
+probabilidades <- dbinom(exitos_deseados, size = n_viajes, prob = p_exito)
+df_binomial <- data.frame( num_exitos = factor(exitos_deseados),  prob = probabilidades)
+library(ggplot2)
+ggplot(df_binomial, aes(x = num_exitos, y = prob)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_text(aes(label = round(prob, 4)), vjust = -0.5) +
+  labs(    title = "Distribución Binomial de viajes que tardan ≥ 30 minutos",   subtitle = "La probabilidad de tener exactamente 2 'éxitos' es del 0.94%", x = "Número de viajes de al menos 30 minutos",   y = "Probabilidad"  ) +
+  theme_minimal()
+```
+
+La probabilidad de que 2 de los siguientes 3 viajes tomen al menos 1/2 hora es 0.92%.
+::::
+
+<br>
+
+## Ejercicio 6.13 {.unnumbered}
+
+La vida promedio de cierto tipo de motor pequeño es de 10 años con una desviación estándar de 2 años. El fabricante reemplaza gratis todos los motores que fallen dentro del periodo de garantía. Si él está dispuesto a reemplazar sólo 3% de los motores que fallan, ¿cuánto tiempo de garantía debería ofrecer? Suponga que la duración de un motor sigue una distribución normal.
+
+- **Parametros**
+
+```{r}
+media <- 10       
+desviacion <- 2    
+probabilidad_fallo <- 0.03 
+```
+
+### Solución
+
+```{r}
+tiempo_garantia <- qnorm(probabilidad_fallo, mean = media, sd = desviacion)
+cat("El fabricante debería ofrecer una garantía de:", round(tiempo_garantia, 2), "años\n")
+```
+
+**Grafica**
+
+```{r}
+media <- 10
+desviacion <- 2
+tiempo_garantia <- qnorm(0.03, mean = media, sd = desviacion)
+rango <- c(media - 3 * desviacion, media + 3 * desviacion)
+ggplot(data.frame(x = rango), aes(x = x)) +
+   stat_function(fun = dnorm, args = list(mean = media, sd = desviacion), n = 500, color = "black") +  
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion),  fill = "purple", xlim = c(min(rango), tiempo_garantia), alpha = 0.6) + 
+  labs(    title = "Período de Garantía de los Motores",    subtitle = "El 3% de los motores fallará antes del período de garantía",    x = "Vida útil del motor (años)",    y = "Densidad de Probabilidad"  ) +
+  theme_bw() +
+  geom_vline(xintercept = tiempo_garantia, linetype = "dashed", color = "red") +
+  geom_text(aes(x = tiempo_garantia, y = 0.01, label = paste0(round(tiempo_garantia, 2), " años")), 
+            hjust = 1.1, vjust = -1)
+```
+
+El fabricante debería ofrecer una garantía de 6.24 años.
+
+------------------------------------------------------------------------
+
+## Ejercicio 6.15 {.unnumbered}
+
+Una compañía paga a sus empleados un salario promedio de \$15.90 por hora con una desviación estándar de \$1.50. Si los salarios se distribuyen aproximadamentede forma normal y se pagan al centavo más 6.15 Una compañía paga a sus empleados un salario promedio de \$15.90 por hora con una desviación estándar de \$1.50. Si los salarios se distribuyen aproximadamente de forma normal y se pagan al centavo más 6.15 Una compañía paga a sus empleados un salario promedio de \$15.90 por hora con una desviación estándar de \$1.50. Si los salarios se distribuyen aproximadamente de forma normal y se pagan al centavo más cercano
+
+**a)** ¿qué porcentaje de los trabajadores reciben salarios entre \$13.75 y \$16.22 inclusive por hora?<br>**b)** ¿el 5% más alto de los salarios por hora de los empleados es mayor a qué cantidad?
+
+- **Parametros**
+
+```{r}
+media <- 15.90
+desviacion <- 1.50
+limite_inferior <- 13.75 - 0.005
+limite_superior <- 16.22 + 0.005
+```
+
+### Solución a los incisos
+
+::: panel-tabset
+#### Inciso A
+
+¿Qué porcentaje de los trabajadores reciben salarios entre \$13.75 y \$16.22 inclusive por hora?
+
+```{r}
+prob_a_superior <- pnorm(limite_superior, mean = media, sd = desviacion)
+prob_a_inferior <- pnorm(limite_inferior, mean = media, sd = desviacion)
+prob_a <- prob_a_superior - prob_a_inferior
+porcentaje_a <- prob_a * 100
+cat("a)", round(porcentaje_a, 2), "%\n")
+```
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion, media + 3 * desviacion)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion), n = 500) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion), fill = "darkgreen", xlim = c(limite_inferior, limite_superior), alpha = 0.6) +
+  labs(    title = "Porcentaje de salarios entre $13.75 y $16.22",  x = "Salario por hora ($)", y = "Densidad de probabilidad"  ) +
+  geom_vline(xintercept = c(limite_inferior, limite_superior), linetype = "dashed", color = "red") +
+  theme_minimal()
+```
+
+El porcentaje de trabajadores con salarios entre \$13.75 y \$16.22 es 51.04 %.
+
+#### Inciso B
+
+¿El 5% más alto de los salarios por hora de los empleados es mayor a qué cantidad?
+
+```{r}
+media <- 15.90
+desviacion <- 1.50
+valor_b <- qnorm(0.95, mean = media, sd = desviacion)
+cat("b)", round(valor_b, 2), "$\n")
+```
+
+El 5% más alto de los salarios es mayor a \$18.37.
+
+**Grafica**
+
+```{r}
+rango <- c(media - 3 * desviacion, media + 3 * desviacion)
+ggplot(data.frame(x = rango), aes(x = x)) +
+  stat_function(fun = dnorm, args = list(mean = media, sd = desviacion), n = 500) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = media, sd = desviacion), fill = "purple", xlim = c(valor_b, max(rango)), alpha = 0.6) +
+  labs(    title = "El 5% de salarios más altos",  x = "Salario por hora ($)", y = "Densidad de probabilidad" ) +
+  geom_vline(xintercept = valor_b, linetype = "dashed", color = "red") +
+  theme_minimal()
+```
+
+El 5% más alto de los salarios es mayor a \$18.37.
+:::
+
+<br>
+
+sdlfijdios
+
+```{r}
+#| standalone: true
+
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Ejemplo ShinyLive"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput(
+        "n",
+        "Cantidad de datos:",
+        min = 10,
+        max = 1000,
+        value = 100
+      )
+    ),
+    
+    mainPanel(
+      plotOutput("hist")
+    )
+  )
+)
+
+server <- function(input, output) {
+  
+  output$hist <- renderPlot({
+    hist(rnorm(input$n))
+  })
+}
+
+shinyApp(ui, server)
+```

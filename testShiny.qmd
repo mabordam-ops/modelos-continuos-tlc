@@ -1,0 +1,41 @@
+---
+title: "Mi app con ShinyLive"
+format: html
+filters:
+  - shinylive
+---
+
+```{r}
+#| standalone: true
+
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("Ejemplo ShinyLive"),
+  
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput(
+        "n",
+        "Cantidad de datos:",
+        min = 10,
+        max = 1000,
+        value = 100
+      )
+    ),
+    
+    mainPanel(
+      plotOutput("hist")
+    )
+  )
+)
+
+server <- function(input, output) {
+  
+  output$hist <- renderPlot({
+    hist(rnorm(input$n))
+  })
+}
+
+shinyApp(ui, server)
+```

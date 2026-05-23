@@ -1,0 +1,1592 @@
+---
+title: "Estadística I"
+subtitle: "Distribución De Frecuencias"
+author: 
+  - name: "Juan José Lozano Zamora<br>Valerie Sofia Rincon Molina"
+    affiliation: "Universidad del Tolima"
+    affiliation-url: "https://www.ut.edu.co/"
+date: today
+lang: es
+title-block-banner: "#A31C00"
+# Si tienes un archivo .bib, ponlo aquí. Si no, borra esta línea:
+# bibliography: referencias.bib 
+format:
+  html:
+    theme: cosmo
+    page-layout: full
+    fontsize: 1rem
+    toc: true
+    toc-location: left
+    number-sections: true
+    code-fold: true
+    code-summary: "Ver código"
+    html-math-method: katex
+    smooth-scroll: true
+    link-external-icon: true
+    link-external-newwindow: true
+    citations-hover: true
+    footnotes-hover: true
+    css: styles.css
+    highlight-style: solarized
+    code-overflow: scroll
+editor: visual
+execute:
+  message: false
+  warning: false
+knitr:
+  opts_chunk: 
+    fig.align: "center"
+    fig.width: 7
+    fig.height: 5
+    out.width: "100%"
+bibliography: references.bib
+---
+
+------------------------------------------------------------------------
+
+<!-- Estilos del banner -->
+
+```{=html}
+<style>
+body {
+  margin: 0;
+  background-color: white; /* Cambiado a blanco */
+  color: black; /* Cambiado a negro para contraste */
+  font-family: Arial, sans-serif;
+}
+
+#logo-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+#logo-container img {
+  width: 300px;
+  height: auto;
+}
+
+#particles-js {
+  position: fixed;
+  width: 150%;
+  height: 150%;
+  z-index: 0;
+}
+
+
+
+</style>
+```
+
+# . PAQUETES
+
+```{r}
+# Verificar, instalar y activar el paquete "tidyverse"
+if (!require(tidyverse)) {
+  install.packages("tidyverse")
+}
+library(tidyverse)
+
+# Verificar, instalar y activar el paquete "kableExtra"
+if (!require(kableExtra)) {
+  install.packages("kableExtra")
+}
+library(kableExtra)
+
+# Verificar, instalar y activar el paquete "readxl"
+if (!require(readxl)) {
+  install.packages("readxl")
+}
+library(readxl)
+```
+
+[@tidyverse; @kableExtra; @readxl]
+
+# . INTRODUCCIÓN
+
+## . DISTRIBUCIÓN DE FRCUENCIAS
+
+La distribución de frecuencias, es un método utilizado para organizar y resumir información. Bajo este método, los datos recolectados se ordenan y clasifican, indicándonos la frecuencia o sea el número de veces que se repiten.
+
+Formalmente, si se tiene una muestra de tamaño $n$ formada por observaciones de una variable $X$ $$X=x1,x2,x3,…,xn$$ Se podrá decir también, que nos permite manejar grandes cantidades de información en espacios reducidos, en formas de cuadros o tablas, complementadas con gráficas.
+
+Por población o universo, se entiende como un conjunto de medidas para ser aplicadas a una característica cuantitativa, o como el recuento de todas las unidades que presentan una característica común, siendo ésta cualitativa. También se puede definir a la población como un conjunto de elementos o unidades. Lo que se estudia en una unidad o elemento son sus características.
+
+Cuando se toman todas las unidades o elementos de la población, se habla de una investigación ex-haustiva o censo. Si sólo se investiga una parte, se le considera como investigación parcial o muestra.
+
+**La muestra**: la muestra,para que sea representativa de la población, requiere que las unidades o elementos sean seleccionadas al azar, en tal forma que cada una de ellas tenga la misma posibilidad de ser seleccionada.
+
+Se usan letras mayúsculas o letras del alfabeto griego como símbolos en poblaciones, en cambio, en la muestras se emplean letras minúsculas.
+
+Los caracteres de los elementos de una población pueden ser cualitativos o cuantitativos, Los datos cualitativos, denominados también atributos, son todos aquellos elementos que pueden ser descritos cualitativamente, es decir mediante palabras; son ejemplos de atributos: la clasificación de los alumnos de una universidad por lugar de origen; clasificación de un grupo de personas por ocupación, por cargo, por sexo, etc.
+
+Los caracteres cuantitativos denominados variables, son todas aquellas características susceptibles de ser expresadas cuantitativamente, es decir, mediante números. Ejemplo: peso, estatura, edad, número de hijos, salarios, etc.
+
+**Tipos de variables:**
+
+Las variables se dividen en discretas y continuas. Es de tener en cuenta que esta clasificación tiene más valor teórico que práctico.
+
+**Las variables discretas:** son aquéllas que admiten solamente valores enteros, es decir, no tienen valores intermedios. Ejemplo: el número de hijos por familia será discreta, ya que no se podrá decir que una familia tiene dos hijos y medio; el número de empleados por departamento en una empresa, etc.
+
+**Las variables continuas:** son aquéllas que admiten valores fraccionarios, pudiéndose establecer in tervalos. Ejemplo: la estatura de una persona que mide un metro con setenta centímetros; que pesa sesen ta kilos, una libra y cuatro onzas, etc.
+
+## . TIPOS DE FRECUENCIA
+
+En una tabla de distribución de frecuencias se utilizan diferentes medidas para describir la presencia de cada valor o intervalo.
+
+### **Frecuencia Absoluta**
+
+La **frecuencia absoluta** representa el número de veces que aparece un valor o clase en el conjunto de datos.
+
+Se denota por:
+
+$$
+f_i
+$$
+
+donde:
+
+-   $i = 1,2,3,\ldots,k$
+-   $k$ es el número de categorías o clases.
+
+La suma de todas las frecuencias absolutas es igual al tamaño de la muestra:
+
+$$
+\sum_{i=1}^{k} f_i = n
+$$
+
+### **Frecuencia Absoluta Acumulada**
+
+La **frecuencia absoluta acumulada** representa la suma progresiva de las frecuencias absolutas hasta una determinada categoría.
+
+Se denota por:
+
+$$
+F_i
+$$
+
+y se calcula como:
+
+$$
+F_i = \sum_{j=1}^{i} f_j
+$$
+
+La última frecuencia acumulada siempre es igual al tamaño total de la muestra:
+
+$$
+F_k = n
+$$
+
+### **Frecuencia Relativa**
+
+La **frecuencia relativa** expresa la proporción de observaciones que corresponde a una categoría respecto al total de datos.
+
+Se denota por:
+
+$$
+h_i
+$$
+
+y se calcula como:
+
+$$
+h_i = \frac{f_i}{n}
+$$
+
+Propiedad:
+
+$$
+0 \le h_i \le 1
+$$
+
+y
+
+$$
+\sum_{i=1}^{k} h_i = 1
+$$
+
+### **Frecuencia Relativa Acumulada**
+
+La **frecuencia relativa acumulada** representa la suma progresiva de las frecuencias relativas.
+
+Se denota por:
+
+$$
+H_i
+$$
+
+y se calcula como:
+
+$$
+H_i = \sum_{j=1}^{i} h_j
+$$
+
+Propiedad:
+
+$$
+H_k = 1
+$$
+
+### **Frecuencia Porcentual**
+
+La **frecuencia porcentual** expresa la frecuencia relativa en porcentaje.
+
+Se calcula como:
+
+$$
+p_i = h_i \times 100
+$$
+
+Propiedad:
+
+$$
+\sum_{i=1}^{k} p_i = 100
+$$
+
+## . DISTRIBUCIÓN DE FRECUENCIA PARA DATOS AGRUPADOS
+
+Cuando los datos son numerosos, se agrupan en **intervalos de clase**.
+
+Un intervalo de clase se define como:
+
+$$
+(L_i, L_s)
+$$
+
+donde:
+
+-   $L_i$ = límite inferior
+-   $L_s$ = límite superior
+
+### **Amplitud de Clase**
+
+La **amplitud de clase** se calcula como:
+
+$$
+A = L_s - L_i
+$$
+
+o también mediante:
+
+$$
+A = \frac{R}{k}
+$$
+
+donde:
+
+-   $R$ = rango de los datos
+-   $k$ = número de clases
+
+### **Rango**
+
+El **rango** mide la dispersión total de los datos:
+
+$$
+R = X_{max} - X_{min}
+$$
+
+### **Marca de Clase**
+
+La **marca de clase** representa el punto medio de cada intervalo:
+
+$$
+x_i = \frac{L_i + L_s}{2}
+$$
+
+## . PROPIEDADES DE LA DISTRIBUCIÓN DE FRECUENCIAS
+
+Las distribuciones de frecuencias poseen varias propiedades fundamentales:
+
+**1. Conservación del tamaño de la muestra**
+
+$$
+\sum_{i=1}^{k} f_i = n
+$$
+
+**2. Suma de frecuencias relativas**
+
+$$
+\sum_{i=1}^{k} h_i = 1
+$$
+
+**3. Suma de frecuencias porcentuales**
+
+$$
+\sum_{i=1}^{k} p_i = 100
+$$
+
+**4. Monotonía de las frecuencias acumuladas**
+
+Las frecuencias acumuladas son **crecientes**:
+
+$$
+F_1 \le F_2 \le F_3 \le \cdots \le F_k
+$$
+
+**5. Último valor acumulado**
+
+$$
+F_k = n
+$$
+
+y
+
+$$
+H_k = 1
+$$
+
+## . ESTRUCTURA DE UNA TABLA DE DISTRIBUCIÓN DE FRECUENCIA
+
+Una tabla típica contiene las siguientes columnas:
+
+| Clase | Marca de clase | Frecuencia absoluta | Frecuencia acumulada | Frecuencia relativa | Frecuencia relativa acumulada |
+|------------|------------|------------|------------|------------|------------|
+| $C_i$ | $x_i$ | $f_i$ | $F_i$ | $h_i$ | $H_i$ |
+
+<br>
+
+# .TABLAS DE DOBLE ENTRADA
+
+Una **tabla de doble entrada** (o tabla de contingencia) es una herramienta que permite organizar y resumir datos correspondientes a **dos variables simultáneamente**, mostrando cómo se distribuyen de manera conjunta.
+
+## **COMPONENTES PRINCIPALES**
+
+Una tabla de doble entrada está compuesta por:
+
+1.  **Filas** Representan las categorías de una primera variable (Variable A).
+
+2.  **Columnas** Representan las categorías de una segunda variable (Variable B).
+
+3.  **Celdas internas** Contienen las **frecuencias** (absolutas o relativas) que corresponden a la combinación de ambas variables.
+
+4.  **Totales marginales**
+
+    -   Totales por fila (suma horizontal)
+    -   Totales por columna (suma vertical)
+
+5.  **Total general** Suma total de todas las observaciones (n)
+
+## **ESTRUCTURA GENERAL**
+
+|                  | Categoría B1 | Categoría B2 | ... | Total |
+|------------------|--------------|--------------|-----|-------|
+| **Categoría A1** | n₁₁          | n₁₂          | ... | n₁•   |
+| **Categoría A2** | n₂₁          | n₂₂          | ... | n₂•   |
+| **...**          | ...          | ...          | ... | ...   |
+| **Total**        | n•₁          | n•₂          | ... | n     |
+
+<br>
+
+## **NOTACIÓN**
+
+-   $n_{ij}$: frecuencia en la fila *i* y columna *j*
+-   $n_{i\cdot}$: total de la fila *i*
+-   $n_{\cdot j}$: total de la columna *j*
+-   $n$ : total general
+
+# . RECONOCIMIENTO DE LA BASE DE DATOS
+
+La presente base de datos corresponde a información de carácter educativo, en la cual se recopilan diferentes variables relacionadas con aspectos académicos y sociodemográficos de los estudiantes. Este conjunto de datos permite desarrollar un análisis descriptivo mediante la organización y síntesis de la información a través de distribuciones de frecuencia.
+
+En la base se identifican variables como género, nivel educativo, estrato, número de cursos, horas de estudio, promedio académico, porcentaje de asistencia, uso de tecnología y nivel de satisfacción, lo que posibilita un abordaje integral de la información. A partir de estos datos, se busca identificar patrones y tendencias que faciliten la comprensión del comportamiento de la población analizada.
+
+Este reconocimiento inicial constituye el punto de partida para la aplicación de herramientas estadísticas que permitan una adecuada interpretación de los datos.
+
+# . CARGAR DATOS
+
+primero, cargamos las librerias necesarias y leemos el archivo Excel.
+
+## . EN FORMATO xlsx
+
+```{r}
+educacion <- read_excel("Data/educacion.xlsx")
+
+```
+
+# . EXPORTAR EL DATASET
+
+**MOSTRAR**
+
+```{r}
+head(educacion)
+```
+
+**TIPOS DE VARIABLES**
+
+```{r}
+glimpse(educacion)
+```
+
+**NOMBRES DE VARIABLES**
+
+```{r}
+educacion %>% names
+```
+
+**CANTIDAD DE VARIABLES**
+
+```{r}
+educacion %>% names %>% length
+```
+
+**TRANSFORMAR VARIABLES**
+
+```{r}
+#VARIABLES CUALITATIVA NOMINAL
+educacion$Genero <- as.factor(educacion$Genero)
+
+#VARIABLES CUALITATIVAS ORDINALES 
+educacion$Nivel_Educativo <- factor(educacion$Nivel_Educativo, 
+                        levels = c("Primaria", "Secundaria", "Universidad"), ordered = TRUE)
+
+educacion$Estrato <- factor(educacion$Estrato, levels = c ("Bajo", "Medio", "Alto"), ordered = TRUE)
+
+educacion$Tecnologia <- factor(educacion$Tecnologia, levels = c ("Bajo", "Medio", "Alto"), ordered = TRUE)
+
+educacion$Satisfaccion <- factor(educacion$Satisfaccion, levels = c ("Muy baja", "Baja", "Media", "Alta", "Muy alta"), ordered = TRUE)
+
+#VARIABLES CUANTITATIVAS DISCRETAS
+
+educacion$Cursos = as.integer(educacion$Cursos)
+
+educacion$Horas = as.integer(educacion$Horas)
+
+educacion$Promedio = as.integer(educacion$Promedio)
+
+educacion$Asistencia = as.integer(educacion$Asistencia)
+
+```
+
+**NUEVA ESTRUCTURA DE VARIABLES**
+
+```{r}
+glimpse(educacion)
+```
+
+# TABLAS Y GRAFICAS
+
+## Variables cualitativas nominal
+
+::: callout-note
+## ¡Atención!
+
+La variable nominal tiene solo frecuencia absoluta, relativa y porcentaje.
+:::
+
+### Genero
+
+::: panel-tabset
+#### Tabla de frecuencia
+
+```{r}
+# Crear la tabla original
+tabla <- tibble(Genero = educacion$Genero) %>% 
+  group_by(Genero) %>% 
+  summarise(fi = n()) %>%
+  mutate(
+    hi = round(fi/sum(fi), 4), 
+    Porcentaje = paste0(hi*100, "%"),)
+
+# Convertir las columnas a character para evitar conflictos
+tabla <- tabla %>% mutate(
+  Genero = as.character(Genero))
+
+# Añadir la fila de totales
+totales <- tibble(
+  Genero = "Total",
+  fi = sum(tabla$fi),
+  hi = round(sum(tabla$hi), 4),
+  Porcentaje = paste0(round(sum(tabla$hi) * 100, 2), "%"))
+
+# Combinar la tabla con los totales
+tabla_final <- bind_rows(tabla, totales)
+
+# Mostrar la tabla final con kable
+tabla_final %>% 
+  knitr::kable(
+    col.names = c("Genero", "$f_i$", "$h_i$", "Porcentaje"), 
+    align = c("l", "c", "c", "c"))
+
+```
+
+#### Barras
+
+```{r}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+
+# Calcular los porcentajes de cada categoría en la variable GENERO
+genero_counts <- educacion %>%
+  dplyr::count(Genero) %>%
+  mutate(porcentaje = n / sum(n) * 100)
+
+# Crear el diagrama de barras
+ggplot(genero_counts, aes(x = Genero, y = porcentaje, fill = Genero)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Femenino" = "#BD5EE0", "Masculino" = "#00FF22")) + 
+  labs(title = "Distribución del genero", 
+       x = "Genero", 
+       y = "Porcentaje") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  geom_text(aes(label = sprintf("%.1f%%", porcentaje)), 
+            vjust = -0.5, 
+            color = "black", 
+            size = 3.5)
+```
+
+#### Sectores
+
+```{r}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+
+
+# Calcular los porcentajes de cada categoría en la variable GENERO
+genero_counts <- educacion %>%
+  dplyr::count(Genero) %>%
+  mutate(porcentaje = n / sum(n) * 100)
+
+# Crear el diagrama circular
+ggplot(genero_counts, aes(x = "", y = porcentaje, fill = Genero)) +
+  geom_bar(stat = "identity", width = 1) +
+  scale_fill_manual(values = c("Femenino" = "#BD5EE0", "Masculino" = "#00FF22")) +
+  coord_polar("y") +
+  labs(title = "Distribución del genero") +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        panel.grid = element_blank(),
+        axis.text.x = element_blank()) +
+  geom_text(aes(label = sprintf("%.1f%%", porcentaje)), 
+            position = position_stack(vjust = 0.5), 
+            color = "white", 
+            size = 4)
+```
+
+#### Interpretación
+
+FALTA
+:::
+
+<br>
+
+## Variable cualitativa ordinal
+
+::: callout-warning
+## Tip
+
+La variable ordinal tiene los cuatro tipos de frecuencias
+:::
+
+### Nivel_Educativo
+
+```{r}
+# Crear la tabla original
+tabla <- tibble(Nivel_Educativo= educacion$Nivel_Educativo) %>% 
+  group_by(Nivel_Educativo) %>% 
+  summarise(fi = n()) %>%
+  mutate(
+    hi = round(fi/sum(fi), 4), 
+    Porcentaje = paste0(hi*100, "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+
+# Convertir las columnas Fucion, Fi, y Hi a character para evitar conflictos
+tabla <- tabla %>% mutate(
+  Nivel_Educativo = as.character(Nivel_Educativo),
+  Fi = as.character(Fi),
+  Hi = as.character(Hi)
+)
+
+# Añadir la fila de totales, dejando Fi y Hi vacíos
+totales <- tibble(
+  Nivel_Educativo = "Total",
+  fi = sum(tabla$fi),
+  hi = round(sum(tabla$hi), 4),
+  Porcentaje = paste0(round(sum(tabla$hi) * 100, 2), "%"),
+  Fi = "",  # Puedes dejar en blanco o usar un valor numérico
+  Hi = ""   # Puedes dejar en blanco o usar un valor numérico
+)
+
+# Combinar la tabla con los totales
+tabla_final <- bind_rows(tabla, totales)
+
+# Mostrar la tabla final con kable
+tabla_final %>% 
+  knitr::kable(
+    col.names = c("Nivel_Educativo", "fi", "hi", "Porcentaje", "Fi", "Hi"), 
+    align = c("l", "c", "c", "c", "c", "c")
+  )
+
+
+```
+
+#### Barras
+
+```{r}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+
+# Calcular los porcentajes de cada categoría en la variable DEPORTE
+Nivel_Educativo_counts <- educacion %>%
+  dplyr::count(Nivel_Educativo) %>%
+  mutate(porcentaje = n / sum(n) * 100)
+
+# Crear el diagrama de barras
+ggplot(Nivel_Educativo_counts, aes(x = Nivel_Educativo, y = porcentaje, fill = Nivel_Educativo)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Primaria" = "#FF00D1", "Secundaria" = "#1496FF", "Universidad" = "#BEFA89")) +
+  labs(title = "Distribución del Nivel_Educativo", 
+       x = "Nivel_Educativo", 
+       y = "Porcentaje") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  geom_text(aes(label = sprintf("%.1f%%", porcentaje)), 
+            vjust = -0.5, 
+            color = "black", 
+            size = 3.5)
+```
+
+#### Interpretación
+
+FALTA <br>
+
+## Estrato
+
+```{r}
+# Crear la tabla original
+tabla <- tibble(Estrato= educacion$Estrato) %>% 
+  group_by(Estrato) %>% 
+  summarise(fi = n()) %>%
+  mutate(
+    hi = round(fi/sum(fi), 4), 
+    Porcentaje = paste0(hi*100, "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+
+# Convertir las columnas Fucion, Fi, y Hi a character para evitar conflictos
+tabla <- tabla %>% mutate(
+  Estrato = as.character(Estrato),
+  Fi = as.character(Fi),
+  Hi = as.character(Hi)
+)
+
+# Añadir la fila de totales, dejando Fi y Hi vacíos
+totales <- tibble(
+  Estrato = "Total",
+  fi = sum(tabla$fi),
+  hi = round(sum(tabla$hi), 4),
+  Porcentaje = paste0(round(sum(tabla$hi) * 100, 2), "%"),
+  Fi = "",  # Puedes dejar en blanco o usar un valor numérico
+  Hi = ""   # Puedes dejar en blanco o usar un valor numérico
+)
+
+# Combinar la tabla con los totales
+tabla_final <- bind_rows(tabla, totales)
+
+# Mostrar la tabla final con kable
+tabla_final %>% 
+  knitr::kable(
+    col.names = c("Estrato", "fi", "hi", "Porcentaje", "Fi", "Hi"), 
+    align = c("l", "c", "c", "c", "c", "c")
+  )
+
+
+```
+
+#### Barras
+
+```{r}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+
+# Calcular los porcentajes de cada categoría en la variable DEPORTE
+Estrato_counts <- educacion %>%
+  dplyr::count(Estrato) %>%
+  mutate(porcentaje = n / sum(n) * 100)
+
+# Crear el diagrama de barras
+ggplot(Estrato_counts, aes(x = Estrato, y = porcentaje, fill = Estrato)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Bajo" = "#FF0000", "Medio" = "#FF9D00", "Alto" = "#FFD400")) +
+  labs(title = "Distribución del Estrato", 
+       x = "Estrato", 
+       y = "Porcentaje") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  geom_text(aes(label = sprintf("%.1f%%", porcentaje)), 
+            vjust = -0.5, 
+            color = "black", 
+            size = 3.5)
+```
+
+#### Interpretación
+
+FALTA
+
+:::
+
+<br> \### Tecnología
+
+::: panel-tabset
+#### Tabla de frecuencia
+
+```{r}
+# Crear la tabla original
+tabla <- tibble(Tecnologia= educacion$Tecnologia) %>% 
+  group_by(Tecnologia) %>% 
+  summarise(fi = n()) %>%
+  mutate(
+    hi = round(fi/sum(fi), 4), 
+    Porcentaje = paste0(hi*100, "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+
+# Convertir las columnas Fucion, Fi, y Hi a character para evitar conflictos
+tabla <- tabla %>% mutate(
+  Tecnologia = as.character(Tecnologia),
+  Fi = as.character(Fi),
+  Hi = as.character(Hi)
+)
+
+# Añadir la fila de totales, dejando Fi y Hi vacíos
+totales <- tibble(
+  Tecnologia = "Total",
+  fi = sum(tabla$fi),
+  hi = round(sum(tabla$hi), 4),
+  Porcentaje = paste0(round(sum(tabla$hi) * 100, 2), "%"),
+  Fi = "",  # Puedes dejar en blanco o usar un valor numérico
+  Hi = ""   # Puedes dejar en blanco o usar un valor numérico
+)
+
+# Combinar la tabla con los totales
+tabla_final <- bind_rows(tabla, totales)
+
+# Mostrar la tabla final con kable
+tabla_final %>% 
+  knitr::kable(
+    col.names = c("Tecnologia", "fi", "hi", "Porcentaje", "Fi", "Hi"), 
+    align = c("l", "c", "c", "c", "c", "c")
+  )
+
+
+```
+
+#### Barras
+
+```{r}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+
+# Calcular los porcentajes de cada categoría en la variable DEPORTE
+Tecnologia_counts <- educacion %>%
+  dplyr::count(Tecnologia) %>%
+  mutate(porcentaje = n / sum(n) * 100)
+
+# Crear el diagrama de barras
+ggplot(Tecnologia_counts, aes(x = Tecnologia, y = porcentaje, fill = Tecnologia)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("Bajo" = "#00FFE6", "Medio" = "#00BFFF", "Alto" = "#0062FF")) +
+  labs(title = "Distribución de Tecnologia", 
+       x = "Tecnologia", 
+       y = "Porcentaje") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  geom_text(aes(label = sprintf("%.1f%%", porcentaje)), 
+            vjust = -0.5, 
+            color = "black", 
+            size = 3.5)
+```
+
+#### Interpretación
+
+FALTA
+:::
+
+<br>
+
+### Satisfacción
+
+::: panel-tabset
+#### Tabla de frecuencia
+
+```{r}
+library(dplyr)
+library(knitr)
+
+# 1. Crear la tabla base
+tabla <- educacion %>% 
+  group_by(Satisfaccion) %>% 
+  summarise(fi = n()) %>%
+  mutate(
+    hi = round(fi/sum(fi), 4), 
+    Porcentaje = paste0(hi * 100, "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+
+# 2. Preparar para combinar (convertir a character para permitir celdas vacías en Total)
+tabla <- tabla %>% mutate(
+  Satisfaccion = as.character(Satisfaccion),
+  Fi = as.character(Fi),
+  Hi = as.character(Hi)
+)
+
+# 3. Fila de totales
+totales <- tibble(
+  Satisfaccion = "Total",
+  fi = sum(as.numeric(tabla$fi)),
+  hi = sum(as.numeric(tabla$hi)),
+  Porcentaje = paste0(round(hi * 100, 2), "%"),
+  Fi = "",  
+  Hi = ""   
+)
+
+# 4. Combinar
+tabla_final <- bind_rows(tabla, totales)
+
+# 5. Mostrar (Ahora sí hay 6 columnas y 6 nombres)
+tabla_final %>% 
+  knitr::kable(
+    format = "simple",
+    col.names = c("Satisfacción", "fi", "hi", "Porcentaje", "Fi", "Hi"), 
+    align = "lccccc", 
+    caption = "Distribución de Frecuencias de Satisfacción"
+  )
+```
+
+#### Barras
+
+```{r}
+# Cargar las librerías necesarias
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+# 1. Calcular los porcentajes
+# He cambiado 'Tecnologia' por 'Satisfaccion' para que coincida con el gráfico
+Satisfaccion_counts <- educacion %>%
+  dplyr::count(Satisfaccion) %>% 
+  mutate(porcentaje = n / sum(n) * 100)
+
+# 2. Crear el diagrama de barras
+ggplot(Satisfaccion_counts, aes(x = Satisfaccion, y = porcentaje, fill = Satisfaccion)) +
+  geom_bar(stat = "identity") +
+  # Asegúrate de que los nombres aquí coincidan con los niveles de tu variable
+  scale_fill_manual(values = c(
+    "Muy baja" = "#DD00FF", 
+    "Baja"     = "#FF00EE", 
+    "Media"    = "#FF00A2", 
+    "Alta"     = "#FF0066", 
+    "Muy alta" = "#FF0037"
+  )) +
+  labs(
+    title = "Distribución de Satisfacción", 
+    x = "Nivel de Satisfacción", 
+    y = "Porcentaje"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  # Etiquetas de texto sobre las barras
+  geom_text(aes(label = sprintf("%.1f%%", porcentaje)), 
+            vjust = -0.5, 
+            color = "black", 
+            size = 3.5)
+```
+
+#### Interpretación
+
+FALTA
+:::
+
+## Variable cuantitativa discreta
+
+::: callout-note
+La variable discreta tiene los cuatro tipos de frecuencias
+:::
+
+### Cursos
+
+::: panel-tabset
+#### Tabla de frecuencia
+
+```{r}
+# Crear la tabla original
+tabla <- tibble(Cursos = educacion$Cursos) %>%  
+  group_by(Cursos) %>% 
+  summarise(fi = n()) %>%
+  mutate(
+    hi = round(fi/sum(fi), 4),  
+    Porcentaje = paste0(hi * 100, "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+# Convertir las columnas Personas, Fi, y Hi a character para evitar conflictos
+tabla <- tabla %>% mutate(Cursos = as.character(Cursos),
+  Fi = as.character(Fi),
+  Hi = as.character(Hi)
+)
+
+# Añadir la fila de totales, dejando Fi y Hi vacíos
+totales <- tibble(
+  Cursos = "Total",
+  fi = sum(tabla$fi),
+  hi = round(sum(tabla$hi), 2),
+  Porcentaje = paste0(round(sum(tabla$hi) * 100, 2), "%"),
+  Fi = "",  # Puedes dejar en blanco o usar un valor numérico
+  Hi = ""   # Puedes dejar en blanco o usar un valor numérico
+)
+
+# Combinar la tabla con los totales
+tabla_final <- bind_rows(tabla, totales)
+
+# Mostrar la tabla final con kable
+tabla_final %>% 
+  knitr::kable(
+    col.names = c("N Cursos", "fi", "hi", "Porcentaje", "Fi", "Hi"), 
+    align = c("l", "r", "r", "r", "r", "r")
+  )
+```
+
+#### Bastones
+
+```{r}
+# valores de la variable
+x <- c(1, 2, 3, 4, 5, 6, 7,8)
+# f.m.p.
+fx <- c(0.1367, 0.1333, 0.0833, 0.1333, 0.1233, 0.1367, 0.1267, 0.1267)
+
+# Crear un dataframe con los datos
+df <- data.frame(x = x, fx = fx)
+
+# Gráfico con ggplot2
+ggplot(df, aes(x = x, y = fx)) +
+  geom_point(shape = 18, color = "Red") +
+  geom_segment(aes(xend = x, yend = 0), size = 1, color = "purple") +
+  labs(x = "N de Cursos", y = "Porcentaje", title = "Diagrama  de bastones") +
+  theme_minimal() +
+  geom_text(aes(label = fx), vjust = -0.5)
+```
+
+#### Escalonada
+
+```{r}
+# Cargar librerías
+library(ggplot2)
+library(tibble)
+
+# Crear datos
+df <- tibble(
+  x = c(1, 2, 3, 4, 5, 6, 7, 8),
+  Hi = c(0.1367, 0.27, 0.3533, 0.4866, 0.6099, 0.7466, 0.8733,1)
+)
+
+# Gráfica de función de distribución acumulada
+ggplot(df, aes(x = x, y = Hi)) +
+  geom_step(color = "#0033FF", size = 1.2) +        # línea escalonada (CDF)
+  geom_point(color = "#E74C3C", size = 3) +         # puntos
+  scale_x_continuous(breaks = df$x) +
+  scale_y_continuous(limits = c(0, 1)) +
+  labs(
+    title = "Función de Distribución de Cursos",
+    x = "N Cursos",
+    y = "Frecuencia relativa acumulada (Hi)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    panel.grid.minor = element_blank()
+  )
+```
+
+#### Interpretacion
+
+FALTA
+:::
+
+## Variable cuantitativa continua
+
+::: count-note
+##Importante La variable continua se tabula con intervalos
+:::
+
+<br>
+
+### Horas
+
+#### Generacion de intervalos
+
+::: panel-tabset
+##### Minimo
+
+```{r}
+library(readxl)
+library(dplyr)
+
+# 🔹 1. Cargar datos (AJUSTA LA RUTA)
+educacion <- read_excel("Data/educacion.xlsx")
+
+# 🔹 2. Limpiar y convertir Promedio
+educacion <- educacion %>%
+  mutate(
+   Horas = trimws(Horas),
+    Horas = gsub(",", ".",Horas),
+    Horas = as.numeric(Horas)
+  )
+
+# 🔹 3. Tamaño de la muestra
+n <- nrow(educacion)
+
+# 🔹 4. Mínimo
+Min <- min(educacion$Horas, na.rm = TRUE)
+Min
+
+
+```
+
+##### Maximo
+
+```{r}
+library(readxl)
+library(dplyr)
+
+# 🔹 1. Cargar datos (AJUSTA LA RUTA)
+educacion <- read_excel("Data/educacion.xlsx")
+
+# 🔹 2. Limpiar y convertir Promedio
+educacion <- educacion %>%
+  mutate(
+    Horas = trimws(Horas),
+    Horas = gsub(",", ".", Horas),
+    Horas = as.numeric(Horas)
+  )
+
+# 🔹 3. Tamaño de la muestra
+n <- nrow(educacion)
+
+Max <- max(educacion$Horas, na.rm = TRUE)
+Max 
+```
+
+##### Rango
+
+```{r}
+R <- Max-Min
+R
+```
+
+##### Intervalos
+
+```{r}
+m <- ceiling(1 + 3.322*log10(nrow(educacion)))
+m
+```
+
+##### Amplitud
+
+```{r}
+A <- ceiling((R/m) * 1) / 1
+A
+```
+
+##### Rango corregido
+
+```{r}
+RC <- A*m
+RC
+```
+:::
+
+::: panel-tabset
+##### Diferencia
+
+```{r}
+diferencia <- max(educacion$Horas, na.rm = TRUE) - 
+              min(educacion$Horas, na.rm = TRUE)
+
+diferencia
+```
+
+##### Minimo corregido
+
+```{r}
+minimo <- min(educacion$Horas, na.rm = TRUE)
+
+minimo_corregido <- minimo
+
+minimo_corregido
+```
+
+##### Maximo corregido
+
+```{r}
+Xmax <- Max+4
+Xmax
+```
+:::
+
+::: panel-tabset
+#### Tabla de frecuencia
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+# Número de clases (Regla de Sturges)
+k <- round(1 + 3.322 * log10(nrow(educacion)))
+
+# Crear intervalos
+tabla_horas <- educacion %>%
+  mutate(
+    clase = cut(Horas, breaks = k)
+  ) %>%
+  group_by(clase) %>%
+  summarise(fi = n(), .groups = "drop") %>%
+  mutate(
+    hi = round(fi / sum(fi), 4),
+    Porcentaje = paste0(round(hi * 100, 2), "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+
+# Mostrar tabla
+tabla_horas %>%
+  kable(
+    col.names = c("Intervalo (Horas)", "fi", "hi", "%", "Fi", "Hi"),
+    align = "c"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+#### Gráfica
+
+```{r}
+ggplot(educacion, aes(x = Horas)) +
+  geom_histogram(bins = k, fill = "#5DADE2", color = "black") +
+  labs(
+    title = "Distribución de Horas de Estudio",
+    x = "Horas",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+#### Interpretación
+
+FALTA
+:::
+
+<br>
+
+### Promedio
+
+#### Generacion de intervalos
+
+::: panel-tabset
+##### Minimo
+
+```{r}
+library(readxl)
+library(dplyr)
+
+# 🔹 1. Cargar datos (AJUSTA LA RUTA)
+educacion <- read_excel("Data/educacion.xlsx")
+
+# 🔹 2. Limpiar y convertir Promedio
+educacion <- educacion %>%
+  mutate(
+    Promedio = trimws(Promedio),
+    Promedio = gsub(",", ".", Promedio),
+    Promedio = as.numeric(Promedio)
+  )
+
+# 🔹 3. Tamaño de la muestra
+n <- nrow(educacion)
+
+# 🔹 4. Mínimo
+Min <- min(educacion$Promedio, na.rm = TRUE)
+Min
+
+
+```
+
+##### Maximo
+
+```{r}
+library(readxl)
+library(dplyr)
+
+# 🔹 1. Cargar datos (AJUSTA LA RUTA)
+educacion <- read_excel("Data/educacion.xlsx")
+
+# 🔹 2. Limpiar y convertir Promedio
+educacion <- educacion %>%
+  mutate(
+    Promedio = trimws(Promedio),
+    Promedio = gsub(",", ".", Promedio),
+    Promedio = as.numeric(Promedio)
+  )
+
+# 🔹 3. Tamaño de la muestra
+n <- nrow(educacion)
+
+Max <- max(educacion$Promedio, na.rm = TRUE)
+Max 
+```
+
+##### Rango
+
+```{r}
+R <- Max-Min
+R
+```
+
+##### Intervalos
+
+```{r}
+m <- ceiling(1 + 3.322*log10(nrow(educacion)))
+m
+```
+
+##### Amplitud
+
+```{r}
+A <- ceiling((R/m) * 1) / 1
+A
+```
+
+##### Rango corregido
+
+```{r}
+RC <- A*m
+RC
+```
+:::
+
+::: panel-tabset
+##### Diferencia
+
+```{r}
+diferencia <- max(educacion$Promedio, na.rm = TRUE) - 
+              min(educacion$Promedio, na.rm = TRUE)
+
+diferencia
+```
+
+##### Minimo corregido
+
+```{r}
+minimo <- min(educacion$Promedio, na.rm = TRUE)
+
+minimo_corregido <- minimo
+
+minimo_corregido
+```
+
+##### Maximo corregido
+
+```{r}
+Xmax <- Max+4
+Xmax
+```
+:::
+
+::: panel-tabset
+#### Tabla de frecuencia
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+# Número de clases (Sturges)
+k <- round(1 + 3.322 * log10(nrow(educacion)))
+
+# Crear tabla agrupada
+tabla_promedio <- educacion %>%
+  mutate(
+    clase = cut(Promedio, breaks = k)
+  ) %>%
+  group_by(clase) %>%
+  summarise(fi = n(), .groups = "drop") %>%
+  mutate(
+    hi = round(fi / sum(fi), 4),
+    Porcentaje = paste0(round(hi * 100, 2), "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+
+# Mostrar tabla con colores
+tabla_promedio %>%
+  kable(
+    col.names = c("Intervalo (Promedio)", "fi", "hi", "%", "Fi", "Hi"),
+    align = "c"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE
+  ) %>%
+  row_spec(0, bold = TRUE, color = "white", background = "#F39C12") %>%  
+  column_spec(1, background = "#FCF3CF") %>%  
+  column_spec(2, color = "#1B4F72") %>%       
+  column_spec(3, color = "#117A65") %>%       
+  column_spec(4, color = "#B9770E") %>%       
+  column_spec(5, color = "#6C3483") %>%       
+  column_spec(6, color = "#922B21")
+```
+
+#### Gráfica
+
+```{r}
+ggplot(educacion, aes(x = Promedio)) +
+  geom_histogram(bins = k, fill = "#F5B041", color = "black") +
+  labs(
+    title = "Distribución del Promedio Académico",
+    x = "Promedio",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(tabla_promedio, aes(x = clase, y = fi, group = 1)) +
+  geom_line(color = "#D35400", size = 1) +
+  geom_point(color = "#922B21", size = 3) +
+  labs(
+    title = "Polígono de Frecuencia - Promedio",
+    x = "Intervalos de Promedio",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+#### Interpretación
+
+FALTA
+:::
+
+<br>
+
+### Asistencia
+
+#### Generacion de intervalos
+
+::: panel-tabset
+##### Minimo
+
+```{r}
+# 1. CARGAR LIBRERÍAS -----------------------------------------------------
+library(readxl)
+library(dplyr)
+
+# 2. CARGAR DATOS ---------------------------------------------------------
+# Asegúrate de que el archivo esté en la carpeta "Data"
+educacion <- read_excel("Data/educacion.xlsx")
+
+# 3. LIMPIAR Y CONVERTIR VARIABLE -----------------------------------------
+
+educacion <- educacion %>%
+  mutate(Asistencia = Asistencia %>% 
+           trimws() %>%           # 1. Quita espacios
+           gsub(",", ".", .) %>%  # 2. Cambia coma por punto
+           as.numeric())          # 3. Convierte a número
+
+
+# 4. CÁLCULO DE ESTADÍSTICOS ----------------------------------------------
+# Tamaño de la muestra
+n <- nrow(educacion)
+
+# Valor Mínimo
+Min <- min(educacion$Asistencia, na.rm = TRUE)
+
+# Mostrar resultado
+print(paste("El tamaño de la muestra es:", n))
+print(paste("El valor mínimo de asistencia es:", Min))
+
+
+```
+
+##### Maximo
+
+```{r}
+library(readxl)
+library(dplyr)
+
+# 🔹 1. Cargar datos
+educacion <- read_excel("Data/educacion.xlsx")
+
+# 🔹 2. Limpiar y convertir Asistencia
+# Nota: Usamos `Asistencia (%)` porque es el nombre original en tu archivo
+educacion <- educacion %>%
+  mutate(Asistencia = Asistencia %>% 
+           trimws() %>%           # 1. Quita espacios
+           gsub(",", ".", .) %>%  # 2. Cambia coma por punto
+           as.numeric())          # 3. Convierte a número
+# 🔹 3. Tamaño de la muestra
+n <- nrow(educacion)
+
+# 🔹 4. Máximo
+Max <- max(educacion$Asistencia, na.rm = TRUE)
+Max
+```
+
+##### Rango
+
+```{r}
+R <- Max-Min
+R
+```
+
+##### Intervalos
+
+```{r}
+m <- ceiling(1 + 3.322*log10(nrow(educacion)))
+m
+```
+
+##### Amplitud
+
+```{r}
+A <- ceiling((R/m) * 1) / 1
+A
+```
+
+##### Rango corregido
+
+```{r}
+RC <- A*m
+RC
+```
+:::
+
+::: panel-tabset
+##### Diferencia
+
+```{r}
+diferencia <- max(educacion$`Asistencia (%)`, na.rm = TRUE) - 
+              min(educacion$`Asistencia (%)`, na.rm = TRUE)
+
+diferencia
+```
+
+##### Minimo corregido
+
+```{r}
+minimo <- min(educacion$`Asistencia (%)`, na.rm = TRUE)
+
+minimo_corregido <- minimo
+
+minimo_corregido
+```
+
+##### Maximo corregido
+
+```{r}
+Xmax <- Max+4
+Xmax
+```
+:::
+
+::: panel-tabset
+#### Tabla de frecuencia
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+# Número de clases (Sturges)
+k <- round(1 + 3.322 * log10(nrow(educacion)))
+
+# Crear tabla agrupada
+tabla_asistencia <- educacion %>%
+  mutate(
+    clase = cut(Asistencia, breaks = k)
+  ) %>%
+  group_by(clase) %>%
+  summarise(fi = n(), .groups = "drop") %>%
+  mutate(
+    hi = round(fi / sum(fi), 4),
+    Porcentaje = paste0(round(hi * 100, 2), "%"),
+    Fi = cumsum(fi),
+    Hi = cumsum(hi)
+  )
+
+# Mostrar tabla con colores
+tabla_asistencia %>%
+  kable(
+    col.names = c("Intervalo (%)", "fi", "hi", "%", "Fi", "Hi"),
+    align = "c"
+  ) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width = FALSE
+  ) %>%
+  row_spec(0, bold = TRUE, color = "white", background = "#2ECC71") %>%  
+  column_spec(1, background = "#D5F5E3") %>%  
+  column_spec(2, color = "#1B4F72") %>%       
+  column_spec(3, color = "#117A65") %>%       
+  column_spec(4, color = "#B9770E") %>%       
+  column_spec(5, color = "#6C3483") %>%       
+  column_spec(6, color = "#922B21")
+```
+
+#### Gráfica
+
+```{r}
+# 1. Definir el número de intervalos (Regla de Sturges por ejemplo)
+k <- ceiling(1 + log2(nrow(educacion)))
+
+# 2. Crear el histograma corregido
+ggplot(educacion, aes(x = Asistencia)) +  # <--- Aquí faltaba el paréntesis )
+  geom_histogram(bins = k, fill = "#58D68D", color = "black") +
+  labs(
+    title = "Distribución del Porcentaje de Asistencia",
+    x = "Asistencia",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(tabla_asistencia, aes(x = clase, y = fi, group = 1)) +
+  geom_line(color = "#239B56", size = 1) +
+  geom_point(color = "#145A32", size = 3) +
+  labs(
+    title = "Polígono de Frecuencia - Asistencia",
+    x = "Intervalos de Asistencia (%)",
+    y = "Frecuencia"
+  ) +
+  theme_minimal()
+```
+
+#### Interpretación
+
+FALTA
+:::
+
+<br>

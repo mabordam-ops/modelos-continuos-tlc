@@ -1,0 +1,4 @@
+"0","options("
+"0","  knitr.table.format = ""html"","
+"0","  scipen = 999"
+"0",")"
